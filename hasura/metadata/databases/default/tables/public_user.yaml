@@ -9,3 +9,12 @@ array_relationships:
         table:
           name: favourite_book
           schema: public
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - name
+        - id
+      filter: {}
+      check: {}
+    comment: ""
