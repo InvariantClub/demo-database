@@ -1,1 +1,3 @@
-[]
+- "!include public_book.yaml"
+- "!include public_favourite_book.yaml"
+- "!include public_user.yaml"

@@ -1,0 +1,11 @@
+table:
+  name: book
+  schema: public
+array_relationships:
+  - name: favourite_books
+    using:
+      foreign_key_constraint_on:
+        column: isbn
+        table:
+          name: favourite_book
+          schema: public

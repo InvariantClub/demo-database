@@ -1,0 +1,1 @@
+CREATE TABLE "public"."favourite_book" ("isbn" text NOT NULL, "user_id" uuid NOT NULL, PRIMARY KEY ("isbn","user_id") , FOREIGN KEY ("isbn") REFERENCES "public"."book"("isbn") ON UPDATE restrict ON DELETE restrict, FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON UPDATE restrict ON DELETE restrict);
