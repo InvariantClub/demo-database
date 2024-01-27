@@ -13,6 +13,36 @@ insert_permissions:
     permission:
       check: {}
       columns:
+        - affinity
         - isbn
         - user_id
+    comment: ""
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - affinity
+        - isbn
+        - user_id
+      filter: {}
+      limit: 5000
+    comment: ""
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - affinity
+        - isbn
+        - user_id
+      filter: {}
+      check:
+        user_id:
+          _eq: x-hasura-user-id
+    comment: ""
+delete_permissions:
+  - role: user
+    permission:
+      filter:
+        user_id:
+          _eq: x-hasura-user-id
     comment: ""

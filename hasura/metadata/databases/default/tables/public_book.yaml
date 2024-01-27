@@ -16,4 +16,5 @@ select_permissions:
         - isbn
         - title
       filter: {}
+      allow_aggregations: true
     comment: ""
