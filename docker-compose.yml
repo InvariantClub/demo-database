@@ -1,0 +1,60 @@
+version: '3'
+
+services:
+  # Database
+  db:
+    image: postgres:15rc1
+    environment:
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_DB: "${POSTGRES_DB}"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - default
+    healthcheck:
+      test: "pg_isready -U postgres"
+      interval: 2s
+      timeout: 1s
+      retries: 30
+
+  # Hasura
+  hasura:
+    build:
+      context: ./hasura
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      HASURA_GRAPHQL_ADMIN_SECRET: "${HASURA_GRAPHQL_ADMIN_SECRET}"
+      HASURA_GRAPHQL_DATABASE_URL: "${HASURA_GRAPHQL_DATABASE_URL}"
+      HASURA_GRAPHQL_DEV_MODE: "${HASURA_GRAPHQL_DEV_MODE}"
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "${HASURA_GRAPHQL_ENABLE_CONSOLE}"
+    volumes:
+      - ./:/work
+    working_dir: /work/hasura
+    networks:
+      - default
+    healthcheck:
+      test: curl http://localhost:8080/healthz
+      interval: 2s
+      timeout: 1s
+      retries: 30
+
+  # For the console and such
+  hasura-cli:
+    build:
+      context: ./hasura
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/work
+    entrypoint: bash
+    working_dir: /work/hasura
+    network_mode: host
+
+volumes:
+  db-data:
