@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+
 set -euo pipefail
 
 if [ "$#" -ne 1 ]; then
@@ -17,14 +18,13 @@ commit="$1"
 
 temp_dir=$(mktemp -d)
 
-this_dir=$(pwd)
-
 git clone . $temp_dir>/dev/null 2>&1
 
 cd $temp_dir && git checkout $commit>/dev/null 2>&1
 
-cd $this_dir
+# Mount the tmp dir and run metadelta via the cli
+EXE="docker run -it -v $temp_dir:/work ghcr.io/invariantclub/metadelta-cli"
 
-metadelta single \
-  -p $temp_dir/hasura/metadata \
+${EXE} single \
+  -p /work/hasura/metadata \
   --label $commit
