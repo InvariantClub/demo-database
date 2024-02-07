@@ -23,7 +23,7 @@ git clone . $temp_dir>/dev/null 2>&1
 cd $temp_dir && git checkout $commit>/dev/null 2>&1
 
 # Mount the tmp dir and run metadelta via the cli
-EXE="docker run -it -v $temp_dir:/work ghcr.io/invariantclub/metadelta-cli"
+EXE="docker run -i -v $temp_dir:/work ghcr.io/invariantclub/metadelta-cli"
 
 ${EXE} single \
   -p /work/hasura/metadata \
