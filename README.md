@@ -8,11 +8,11 @@ In particular, we have:
 - A sample Hasura database,
 - A few commits making some changes,
 - Some [scripts](./scripts) showcasing how to run a local diff,
-- A [GitHub Actions integration](#github-action) showing how to integrate
+- A [GitHub Actions integration](#github-action-integration) showing how to integrate
   this into a "real" project.
 
 
-### <a name="github-action"></a> GitHub Action Integration
+### GitHub Action Integration
 
 If you take a look at the [GitHub action
 workflow](./.github/workflows/compute-permission-diff.yaml) you will see a
