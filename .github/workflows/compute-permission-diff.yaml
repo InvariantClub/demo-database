@@ -58,6 +58,6 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            [View the permission diff in Metadelta :eyes:](https://metadelta.invariant.club/#/explorer?githubArtifact=${{ steps.artifact.outputs.artifact-id }}/${{ github.repository_owner }}/${{ github.event.repository.name }})
+            [View the permission diff in Metadelta :eyes:](https://metadelta.invariant.club/explorer?githubArtifact=${{ steps.artifact.outputs.artifact-id }}/${{ github.repository_owner }}/${{ github.event.repository.name }})
 
             This is was triggered from GitHub Actions [run ${{ github.run_number }}](https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}/actions/runs/${{ github.run_id }}/).
