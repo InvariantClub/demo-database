@@ -3,7 +3,6 @@ name: Compute permission diff on PR
 on:
   pull_request:
 
-
 jobs:
   compute-diff:
     permissions:
@@ -11,53 +10,7 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout the PR as the 'new' source
-        uses: actions/checkout@v4
+      - uses: InvariantClub/metadelta-github-action@v1
         with:
-          path: ./new
-          ref: ${{ github.event.pull_request.head.sha }}
-
-      - name: Checkout `main` as the 'old' source
-        uses: actions/checkout@v4
-        with:
-          path: ./old
-          ref: main
-
-      - name: Run metadelta comparing old and new
-        id: metadelta
-        run: |
-          docker run -i \
-            -v $PWD:/work \
-            ghcr.io/invariantclub/metadelta-cli \
-            diff \
-            -o /work/old/hasura/metadata/ \
-            --oldLabel 'main' \
-            -n /work/new/hasura/metadata/ \
-            --newLabel '${{ github.event.pull_request.head.label }} @ ${{ github.event.pull_request.head.sha }}' \
-            --newLink '${{ github.event.pull_request.html_url }}' \
-            >diff.json || true
-          echo "anythingDifferent=$(test -s diff.json || echo 'true')" >> "$GITHUB_OUTPUT"
-
-      - name: Uploading the diff as an artifact
-        uses: actions/upload-artifact@v4
-        id: artifact
-        if:
-          # Only run if we detected changes.
-          ${{ steps.metadelta.outputs.anythingDifferent != 'true' }}
-        with:
-          name: metadelta-diff
-          path: diff.json
-          retention-days: 5
-
-      - name: Comment with Metadelta link
-        uses: peter-evans/create-or-update-comment@v4.0.0
-        if:
-          # Only run if we uploaded an artifact
-          ${{ steps.artifact.outcome == 'success' }}
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          issue-number: ${{ github.event.pull_request.number }}
-          body: |
-            [View the permission diff in Metadelta :eyes:](https://metadelta.invariant.club/explorer?githubArtifact=${{ steps.artifact.outputs.artifact-id }}/${{ github.repository_owner }}/${{ github.event.repository.name }})
-
-            This is was triggered from GitHub Actions [run ${{ github.run_number }}](https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}/actions/runs/${{ github.run_id }}/).
+          # Repo-relative path to the hasura metadata folder.
+          hasura_path: hasura/metadata
