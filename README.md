@@ -21,7 +21,7 @@ small collection of steps showing how to run the Metadelta on a PR.
 The steps are as follows:
 
 1. Clone the PR branch and the main branch to temp directories,
-2. Run `metadelta-cli` (from Docker) outputting a `diff.json` file,
+2. Run `metadelta` (from Docker) outputting a `diff.json` file,
 3. If there was a difference:
   - Upload it as an artifact to GitHub,
   - Comment with a link to the [Metadelta

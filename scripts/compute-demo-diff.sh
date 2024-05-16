@@ -27,7 +27,7 @@ git clone . $temp_dir_new>/dev/null 2>&1
 cd $temp_dir_old && git checkout $old>/dev/null 2>&1
 cd $temp_dir_new && git checkout $new>/dev/null 2>&1
 
-EXE="docker run -i -v $temp_dir_old:/old -v $temp_dir_new:/new ghcr.io/invariantclub/metadelta-cli"
+EXE="docker run -i -v $temp_dir_old:/old -v $temp_dir_new:/new ghcr.io/invariantclub/metadelta"
 
 ${EXE} diff \
   -o /old/hasura/metadata \
